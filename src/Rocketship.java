@@ -8,11 +8,12 @@ public class Rocketship extends GameObject{
 	boolean downPressed = false;
 	int speed;
 	Rocketship(int x, int y, int width, int height, int speed) {
-		super(x, y, width, height);
+		super(x, y, width, height, x, y, width, height);
 		this.speed = speed;
 	}
 
 	void update() {
+	super.update(x, y, x, y, width, height);
 	move();
 	}
 	void move() {

@@ -19,7 +19,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	Font titleFontunbold;
 	Font subtitleFontunbold;
 	Rocketship ship;
-	ObjectManager object;
+	ObjectManager manager;
 
 	//JesusChrist123!
 
@@ -30,13 +30,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		titleFontunbold = new Font("Arial", Font.PLAIN, 48);
 		subtitleFontunbold = new Font("Arial", Font.PLAIN, 24);
 		ship = new Rocketship(250, 700, 50, 50, 10);
-		object = new ObjectManager(ship);
+		manager = new ObjectManager(ship);
 	}
 	void updateMenuState(){
 		
 	}
 	void updateGameState(){
-		object.update();
+		manager.update();
+		manager.manageEnemies();
+		manager.checkCollison();
+		manager.purgeObjects();
 	}
 	void updateEndState(){
 	
@@ -55,7 +58,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	void drawGameState(Graphics g){
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);  
-		object.draw(g);
+		manager.draw(g);
 	}
 	void drawEndState(Graphics g){
 		g.setColor(Color.RED);
@@ -131,6 +134,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		else if(arg0.getKeyCode()==KeyEvent.VK_UP) {
 			ship.upPressed = true;
 		}
+		
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -144,9 +148,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		}
 		if(e.getKeyCode()==KeyEvent.VK_DOWN) {
 			ship.downPressed = false;
-		}
+		}                                    
 		else if(e.getKeyCode()==KeyEvent.VK_UP) {
 			ship.upPressed = false;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_SPACE) {
+			Projectile p = new Projectile(ship.x+ship.width/2-5, ship.y, 10, 10);
+			manager.addProjectile(p);
 		}
 	}
 	@Override
