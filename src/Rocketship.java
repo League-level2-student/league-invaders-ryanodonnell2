@@ -18,16 +18,24 @@ public class Rocketship extends GameObject{
 	}
 	void move() {
 		if(leftPressed == true) {
+			if(x>0) {
 			x = x-speed;
+			}
 		}
 		if(rightPressed == true) {
-			x = x+speed;
+			if(x<450) {
+				x = x+speed;
+				}
 		}
 		if(upPressed == true) {
-			y = y-speed;
+			if(y>0) {
+				y = y-speed;
+				}
 		}
 		if(downPressed == true) {
-			y = y+speed;
+			if(y<750) {
+				y = y+speed;
+				}
 		}
 	}
 	void draw(Graphics g) {
