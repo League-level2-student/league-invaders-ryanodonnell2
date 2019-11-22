@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
@@ -21,6 +24,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Rocketship ship;
 	ObjectManager manager;
 
+	
+	public static BufferedImage alienImg;
+
+    public static BufferedImage rocketImg;
+
+    public static BufferedImage bulletImg;
+
+    public static BufferedImage spaceImg;
 	// JesusChrist123!
 
 	GamePanel() {
@@ -31,10 +42,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		subtitleFontunbold = new Font("Arial", Font.PLAIN, 24);
 		ship = new Rocketship(250, 700, 50, 50, 10);
 		manager = new ObjectManager(ship);
+		 try {
+
+             alienImg = ImageIO.read(this.getClass().getResourceAsStream("alien.png"));
+
+             rocketImg = ImageIO.read(this.getClass().getResourceAsStream("rocket.png"));
+
+             bulletImg = ImageIO.read(this.getClass().getResourceAsStream("bullet.png"));
+
+             spaceImg = ImageIO.read(this.getClass().getResourceAsStream("space.png"));
+
+     } catch (IOException e) {
+
+             // TODO Auto-generated catch block
+
+             e.printStackTrace();
+
+     }
 	}
 
 	void updateMenuState() {
-
+		manager.GetScore();
 	}
 
 	void updateGameState() {
@@ -61,8 +89,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawGameState(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
+		g.drawImage(GamePanel.spaceImg, 0, 0, 500, 800, null);
 		manager.draw(g);
 		if (ship.isAlive == false) {
 			currentState = END_STATE;
@@ -76,7 +103,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.BLACK);
 		g.drawString("Game Over", 125, 200);
 		g.setFont(subtitleFontunbold);
-		g.drawString("You killed" + "" + " enemies", 145, 350);
+		g.drawString("You killed " + manager.GetScore() + " enemies", 145, 350);
 		g.drawString("Press ENTER to restart", 125, 500);
 
 	}
