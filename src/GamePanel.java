@@ -17,6 +17,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
 	int currentState = 0;
+	int score;
 	Font titleFont;
 	Font subtitleFont;
 	Font titleFontunbold;
@@ -86,6 +87,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setFont(subtitleFont);
 		g.drawString("Press ENTER to start", 135, 350);
 		g.drawString("Press SPACE for instructions", 100, 500);
+		manager.SetScore(0);
 	}
 
 	void drawGameState(Graphics g) {
@@ -104,8 +106,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.drawString("Game Over", 125, 200);
 		g.setFont(subtitleFontunbold);
 		g.drawString("You killed " + manager.GetScore() + " enemies", 145, 350);
+		if(score > manager.GetHighScore()) {
+			score= manager.GetHighScore();
+			g.drawString("HIGH SCORE!", 145, 400);
+		
+		}
 		g.drawString("Press ENTER to restart", 125, 500);
-
 	}
 
 	@Override
